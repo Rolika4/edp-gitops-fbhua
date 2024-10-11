@@ -1,5 +1,5 @@
 ---
-- name: Execute test-app command on "{{ target }}" group
+- name: Execute java-rpm command on "{{ target }}" group
   hosts: "{{ target }}"
   become: yes
   tasks:
