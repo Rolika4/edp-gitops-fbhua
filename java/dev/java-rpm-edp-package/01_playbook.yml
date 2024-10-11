@@ -1,0 +1,12 @@
+---
+- name: Execute java-rpm-edp-package command on "{{ target }}" group
+  hosts: "{{ target }}"
+  become: yes
+  tasks:
+    - name: Run the test-app command
+      command: java-rpm-edp-package
+      register: result
+
+    - name: Print the command output
+      debug:
+        msg: "{{ result.stdout }}"

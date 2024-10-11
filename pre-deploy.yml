@@ -20,10 +20,10 @@
         name: java-11-openjdk
         state: present
         disable_gpg_check: yes
-      when: "'web_qa' in group_names or 'pipe_dev' in group_names"
+      when: "'java_dev' in group_names or 'pipe_dev' in group_names"
       become: yes
 
     - name: Verify Java installation on "{{ target }}" group
       command: java -version
-      when: "'web_qa' in group_names or 'pipe_dev' in group_names"
+      when: "'java_dev' in group_names or 'pipe_dev' in group_names"
       become: yes
