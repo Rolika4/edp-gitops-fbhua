@@ -1,0 +1,12 @@
+---
+- name: Execute test-app command on "{{ target }}" group
+  hosts: "{{ target }}"
+  become: yes
+  tasks:
+    - name: Run the test-app command
+      command: java --version
+      register: result
+
+    - name: Print the command output
+      debug:
+        msg: "{{ result.stdout }}"

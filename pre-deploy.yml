@@ -1,0 +1,29 @@
+---
+- name: Manage Nexus repositories on "{{ target }}" group
+  hosts: "{{ target }}"
+  become: yes
+  vars:
+    nexus_username: "{{ lookup('env', 'NEXUS_USERNAME') }}"
+    nexus_password: "{{ lookup('env', 'NEXUS_PASSWORD') }}"
+  tasks:
+    - name: Copy nexus.repo to /etc/yum.repos.d/
+      ansible.builtin.template:
+        src: "{{ src_path }}/nexus.repo"
+        dest: /etc/yum.repos.d/nexus.repo
+
+    - name: Update the yum cache "{{ target }}" group
+      ansible.builtin.command:
+        cmd: yum makecache
+
+    - name: Ensure Java is installed on the "{{ target }}" group
+      yum:
+        name: java-21-openjdk
+        state: present
+        disable_gpg_check: yes
+      when: "'web_qa' in group_names or 'web_dev' in group_names"
+      become: yes
+
+    - name: Verify Java installation on "{{ target }}" group
+      command: java -version
+      when: "'web_qa' in group_names or 'web_dev' in group_names"
+      become: yes
