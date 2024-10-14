@@ -4,7 +4,7 @@
   become: yes
   tasks:
     - name: Run the test-app command
-      command: java-rpm
+      command: systemctl status java-rpm
       register: result
 
     - name: Print the command output
