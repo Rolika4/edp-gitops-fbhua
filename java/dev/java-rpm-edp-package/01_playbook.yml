@@ -4,7 +4,7 @@
   become: yes
   tasks:
     - name: Run the test-app command
-      command: java-rpm-edp-package
+      command: /usr/bin/java --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED -jar /usr/bin/java-rpm-edp-package
       register: result
 
     - name: Print the command output
