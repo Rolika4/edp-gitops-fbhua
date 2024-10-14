@@ -17,7 +17,7 @@
 
     - name: Ensure Java is installed on the "{{ target }}" group
       yum:
-        name: java-11-openjdk
+        name: java-11-amazon-corretto
         state: present
         disable_gpg_check: yes
       when: "'java_dev' in group_names or 'pipe_dev' in group_names"
