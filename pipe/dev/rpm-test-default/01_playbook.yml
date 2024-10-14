@@ -1,10 +1,10 @@
 ---
-- name: Execute java-rpm command on "{{ target }}" group
+- name: Execute rpm-test-default command on "{{ target }}" group
   hosts: "{{ target }}"
   become: yes
   tasks:
     - name: Run the test-app command
-      command: systemctl status java-rpm
+      command: systemctl status rpm-test-default
       register: result
 
     - name: Print the command output
