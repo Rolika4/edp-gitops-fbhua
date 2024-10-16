@@ -14,8 +14,16 @@
     - name: Update the yum cache "{{ target }}" group
       ansible.builtin.command:
         cmd: yum makecache
+    
+    - name: Add Amazon Corretto repository
+      yum_repository:
+        name: amazon-corretto
+        description: Amazon Corretto repository
+        baseurl: https://corretto.aws/downloads/resources/repos/amazon-corretto.repo
+        gpgcheck: yes
+        enabled: yes
 
-    - name: Ensure Java is installed on the "{{ target }}" group
+    - name: Install Java on the "{{ target }}" group
       yum:
         name: java-11-amazon-corretto
         state: present
