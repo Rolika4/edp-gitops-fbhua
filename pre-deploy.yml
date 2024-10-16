@@ -9,35 +9,21 @@
     - name: Copy nexus.repo to /etc/yum.repos.d/
       ansible.builtin.template:
         src: "{{ src_path }}/nexus.repo"
-        dest: /etc/yum.repos.d/nexus.repo"
+        dest: /etc/yum.repos.d/nexus.repo
 
-    - name: Add Amazon Corretto repository
-      yum_repository:
-        name: amazon-corretto
-        description: Amazon Corretto repository
-        baseurl: https://corretto.aws/downloads/resources/repos/amazon-corretto.repo
-        gpgcheck: yes
-        enabled: yes
-        
-    - name: Clean and update the yum/dnf cache
+    - name: Update the yum cache "{{ target }}" group
       ansible.builtin.command:
-        cmd: dnf clean all && dnf makecache --refresh
-      ignore_errors: yes
+        cmd: yum makecache
 
-    - name: Upgrade all packages
+    - name: Ensure Java is installed on the "{{ target }}" group
       ansible.builtin.command:
-        cmd: dnf upgrade -y --refresh
-      ignore_errors: yes
-
-    - name: Install Java on the "{{ target }}" group
-      yum:
-        name: java-11-amazon-corretto
-        state: present
-        disable_gpg_check: yes
-      when: "'java_dev' in group_names or 'pipe_dev' in group_names"
+        cmd: yum install java-11-amazon-corretto
+      when: "'web_qa' in group_names or 'web_dev' in group_names"
       become: yes
 
     - name: Verify Java installation on "{{ target }}" group
       command: java -version
-      when: "'java_dev' in group_names or 'pipe_dev' in group_names"
+      when: "'web_qa' in group_names or 'web_dev' in group_names"
       become: yes
+
+      
